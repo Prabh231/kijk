@@ -1,5 +1,21 @@
-/* Core font styling and basic page reset */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+/* ==========================================================================
+   CSS Zen Garden — Assignment One | COMP1054
+   Theme: Clean nature-inspired design with earthy tones and two custom fonts.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500&display=swap');
+
+:root {
+    --bg: #eae7dc;
+    --text: #1e352f;
+    --surface: #f7f5f0;
+    --primary: #123c29;
+    --accent: #c9a66b;
+    --white: #ffffff;
+    --border: #dde8e2;
+    --font-body: 'Poppins', sans-serif;
+    --font-heading: 'Playfair Display', serif;
+}
 
 * {
     margin: 0;
@@ -7,400 +23,467 @@
     box-sizing: border-box;
 }
 
-/* body Style */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #eae7dc;
-    color: #1e352f;
-    line-height: 1.7;
-    perspective: 1000px;
+    font-family: var(--font-body);
+    background-color: var(--bg);
+    background-image: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 2rem,
+        rgba(18, 60, 41, 0.03) 2rem,
+        rgba(18, 60, 41, 0.03) 4rem
+    );
+    color: var(--text);
+    font-size: clamp(0.9rem, 1vw, 1.05rem);
+    line-height: 1.75;
 }
 
+p {
+    margin-bottom: 1rem;
+}
+p:last-child {
+    margin-bottom: 0;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    line-height: 1.2;
+}
+
+/* --- Links: colour shift + arrow slides in + slight lift on hover --- */
 a, a:visited {
-    color: #ffffff;
+    color: var(--primary);
     text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease, transform 0.3s ease, padding-right 0.3s ease;
 }
-
-/* Hover state color change for links */
+a::after {
+    content: " →";
+    opacity: 0;
+    position: absolute;
+    right: -1.2rem;
+    transition: opacity 0.3s ease, right 0.3s ease;
+}
 a:hover {
-    color: #123c29;
+    color: var(--accent);
+    padding-right: 1.2rem;
+    transform: translateY(-0.1rem);
+}
+a:hover::after {
+    opacity: 1;
+    right: 0;
 }
 
-/* Two column layout grid setup */
+/* --- Page wrapper --- */
 .page-wrapper {
     display: grid;
-    grid-template-columns: 1fr 340px;
-    max-width: 1300px;
-    margin: 40px auto;
-    background-color: #f7f5f0;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
+    grid-template-columns: 1fr 20rem;
+    max-width: 80rem;
+    margin: 2rem auto;
+    background-color: var(--surface);
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
     overflow: hidden;
 }
 
-/* Top banner grid wrapper */
+/* ==========================================================================
+   INTRO / HERO SECTION
+   ========================================================================== */
+
 .intro {
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: #123c29;
-    color: #f7f5f0;
+    background-color: var(--primary);
+    color: var(--surface);
     position: relative;
     overflow: hidden;
 }
 
-/* abstract lines pattern in top right corner */
-.intro::before {
-    content: "";
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 300px;
-    height: 300px;
-    background: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(201, 166, 107, 0.15) 15px, rgba(201, 166, 107, 0.15) 17px);
-    border-radius: 50%;
-    z-index: 1;
-    pointer-events: none;
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease;
-}
+.intro a, .intro a:visited { color: var(--white); }
+.intro a:hover { color: var(--accent); transform: none; padding-right: 0; }
+.intro a::after { display: none; }
 
-/* circle in top right corner */
-.intro header::before {
-    content: "";
-    position: absolute;
-    top: 50px;
-    right: -600px;
-    width: 120px;
-    height: 120px;
-    border: 2px dashed rgba(201, 166, 107, 0.3);
-    border-radius: 50%;
-    z-index: 1;
-    pointer-events: none;
-    transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease;
-}
-
-/* Scale and rotate background lines on hover */
-.intro:hover::before {
-    transform: scale(1.1) rotate(10deg);
-    opacity: 0.25;
-}
-
-/* Shrink and counter rotate dash circle on hover */
-.intro:hover header::before {
-    transform: scale(0.9) rotate(-45deg);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-/* Header typography layout settings */
 .intro header {
     grid-column: 1 / 2;
-    padding: 60px 50px 20px 50px;
-    position: relative;
-    z-index: 2;
+    padding: 3rem 3rem 1rem;
 }
 
-/* Main typography size and weight */
 .intro header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 4.2rem;
-    color: #ffffff;
-    line-height: 1.1;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    color: var(--white);
     font-weight: 700;
 }
 
-/* Subtitle spacing and tracking */
 .intro header h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1rem;
-    color: #c9a66b;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-top: 5px;
+    letter-spacing: 0.15rem;
+    margin-top: 0.5rem;
 }
 
-/* summary box padding */
 .intro .summary {
     grid-column: 1 / 2;
-    padding: 0 50px 40px 50px;
-    position: relative;
-    z-index: 2;
+    padding: 0 3rem 2rem;
 }
 
 .intro .summary p a {
     display: inline-block;
-    color: #123c29;
-    background: rgb(201, 166, 105);
-    padding: 8px 20px;
-    border-radius: 25px;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    background: var(--accent);
+    color: var(--primary);
     font-weight: 500;
-    margin-right: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
-
-/* Premium micro movement and lift on button hover */
 .intro .summary p a:hover {
-    background: #ffffff;
-    color: #123c29;
-    transform: translateY(-3px) scale(1.05);
+    background: var(--white);
+    transform: translateY(-0.15rem) scale(1.05);
 }
 
-/* Preamble section border and transparent dark styling */
 .intro .preamble {
     grid-column: 1 / 2;
-    margin: 0 50px 60px 50px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 35px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: relative;
-    z-index: 2;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    margin: 0 3rem 3rem;
+    padding: 1.75rem;
+    background: rgba(255, 255, 255, 0.07);
+    border: 0.0625rem solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.75rem;
 }
 
-/* Specific styling for the Road to Enlightenment title inside preamble */
 .intro .preamble h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    color: #ffffff;
-    margin-bottom: 15px;
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: var(--white);
+    margin-bottom: 0.75rem;
 }
 
-/* True 3D pop out movement on container hover */
-.intro .preamble:hover {
-    transform: translateZ(20px) rotateX(2deg) rotateY(-2deg);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-}
-
-/* Right side giant header cover photo */
 .intro::after {
     content: "";
     grid-column: 2 / 3;
-    background: url('Zen\ Garden.png') center/cover;
-    min-height: 100%;
-    filter: grayscale(30%);
-    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.6s ease;
+    grid-row: 1 / 5;
+    background: url('Zen Garden.png') center / cover;
+    filter: grayscale(20%);
+    transition: filter 0.5s ease;
 }
-
-/* Bring full color and scale image up on hover */
 .intro:hover::after {
     filter: grayscale(0%);
-    transform: scale(1.03);
 }
 
-/* Main column wrapper padding and vertical flow */
+/* ==========================================================================
+   MAIN CONTENT CARDS
+   ========================================================================== */
+
 .main.supporting {
-    padding: 50px;
+    padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 2rem;
 }
 
-/* Card design for layout containers */
 .main.supporting > div {
-    background: #ffffff;
-    padding: 45px;
-    border-radius: 16px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
-    border: 1px solid #eef0eb;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease;
-    transform-style: preserve-3d;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    border: 0.0625rem solid var(--border);
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.3s ease;
 }
 
-/* Upward card floating and shadow expansion on hover */
 .main.supporting > div:hover {
-    transform: translateY(-8px) translateZ(10px);
-    box-shadow: 0 20px 40px rgba(18, 60, 41, 0.08);
+    box-shadow: 0 0.5rem 1.5rem rgba(18, 60, 41, 0.1);
 }
 
-/* Card headers layout rules */
 .main.supporting h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: #123c29;
-    margin-bottom: 20px;
-    transition: transform 0.3s ease;
+    font-family: var(--font-heading);
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    color: var(--primary);
+    margin-bottom: 1rem;
 }
 
-/* Pull title closer to viewer inside 3D space on hover */
-.main.supporting div:hover h3 {
-    transform: translateZ(15px);
-    color: #c9a66b;
+/* ==========================================================================
+   CARD IMAGE LAYOUT
+   All 4 sections follow this structure:
+     Row 1 : heading  — full width
+     Row 2 : image (col A) | first paragraph (col B)
+     Row 3+: remaining paragraphs — full width, stacked below image
+   Left sections  = image col 1, text col 2
+   Right sections = text col 1, image col 2
+   ========================================================================== */
+
+/* Shared image styles */
+.explanation::before,
+.participation::after,
+.benefits::before,
+.requirements::after {
+    content: "";
+    width: 13rem;
+    height: 10rem;
+    border-radius: 0.5rem;
+    background-size: cover;
+    background-position: center;
+    filter: sepia(30%);
+    box-shadow: 0 0.3rem 0.8rem rgba(0,0,0,0.12);
+    transition: filter 0.4s ease;
+    align-self: start;
 }
 
-/* Soft blend watermark background effect for explanation section */
+.explanation:hover::before,
+.participation:hover::after,
+.benefits:hover::before,
+.requirements:hover::after {
+    filter: sepia(0%);
+}
+
+/* ------------------------------------------------------------------
+   EXPLANATION — image LEFT
+   ------------------------------------------------------------------ */
 .explanation {
-    background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.9)), url('beautiful-pink-lotus-flower.JPG');
-    background-size: cover;
-    background-position: center;
+    display: grid;
+    grid-template-columns: 13rem 1fr;
+    gap: 1.5rem;
 }
+/* Row 1: heading full width */
+.explanation h3 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+/* Row 2: image left, first para right */
+.explanation::before {
+    grid-column: 1 / 2;
+    grid-row: 2;
+    background-image: url('beautiful-pink-lotus-flower.JPG');
+}
+.explanation p:first-of-type {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    align-self: start;
+}
+/* Row 3+: remaining paras full width */
+.explanation p:nth-of-type(2) { grid-column: 1 / -1; grid-row: 3; }
+.explanation p:nth-of-type(3) { grid-column: 1 / -1; grid-row: 4; }
+.explanation p:nth-of-type(4) { grid-column: 1 / -1; grid-row: 5; }
 
-/* Soft blend watermark background effect for participation section */
+/* ------------------------------------------------------------------
+   PARTICIPATION — image RIGHT
+   ------------------------------------------------------------------ */
 .participation {
-    background-image: linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.9)), url('zen-garden-with-stone.jpeg');
-    background-size: cover;
-    background-position: center;
+    display: grid;
+    grid-template-columns: 1fr 13rem;
+    gap: 1.5rem;
 }
+/* Row 1: heading full width */
+.participation h3 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+/* Row 2: first para left, image right */
+.participation p:first-of-type {
+    grid-column: 1 / 2;
+    grid-row: 2;
+    align-self: start;
+}
+.participation::after {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    background-image: url('zen-garden-with-stone.jpeg');
+}
+/* Row 3+: remaining paras full width */
+.participation p:nth-of-type(2) { grid-column: 1 / -1; grid-row: 3; }
+.participation p:nth-of-type(3) { grid-column: 1 / -1; grid-row: 4; }
+.participation p:nth-of-type(4) { grid-column: 1 / -1; grid-row: 5; }
+.participation a       { color: var(--primary); }
+.participation a:hover { color: var(--accent); }
 
-/* Nested grid splitting image asset from paragraph blocks */
+/* ------------------------------------------------------------------
+   BENEFITS — image LEFT
+   ------------------------------------------------------------------ */
 .benefits {
     display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 35px;
-    align-items: center;
+    grid-template-columns: 13rem 1fr;
+    gap: 1.5rem;
 }
-
-/* Generation of side image card inside benefits block */
-.benefits::after {
-    content: "";
+/* Row 1: heading full width */
+.benefits h3 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+/* Row 2: image left, first para right */
+.benefits::before {
     grid-column: 1 / 2;
-    grid-row: 1 / 3;
-    height: 220px;
-    border-radius: 12px;
-    background: url('Garden.png') center/cover;
-    filter: sepia(50%) contrast(110%);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease, box-shadow 0.5s ease;
+    grid-row: 2;
+    background-image: url('Garden.png');
 }
-
-/* Interactive zoom shift and restoration of full color palette on hover */
-.benefits:hover::after {
-    transform: scale(1.08) rotate(1deg);
-    filter: sepia(0%) contrast(100%);
-    box-shadow: 0 15px 30px rgba(18, 60, 41, 0.2);
-}
-
-/* Pushing content details to second column slot */
-.benefits h3, .benefits p {
+.benefits p:first-of-type {
     grid-column: 2 / 3;
+    grid-row: 2;
+    align-self: start;
 }
+/* Row 3+: remaining paras full width */
+.benefits p:nth-of-type(2) { grid-column: 1 / -1; grid-row: 3; }
+.benefits p:nth-of-type(3) { grid-column: 1 / -1; grid-row: 4; }
+.benefits p:nth-of-type(4) { grid-column: 1 / -1; grid-row: 5; }
 
-/* Flat minimal tint for final information block */
+/* ------------------------------------------------------------------
+   REQUIREMENTS — image RIGHT
+   ------------------------------------------------------------------ */
 .requirements {
-    background: #fbfbf9 !important;
+    display: grid;
+    grid-template-columns: 1fr 13rem;
+    gap: 1.5rem;
+    background: #f9f8f5;
 }
+/* Row 1: heading full width */
+.requirements h3 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+}
+/* Row 2: first para left, image right */
+.requirements p:first-of-type {
+    grid-column: 1 / 2;
+    grid-row: 2;
+    align-self: start;
+}
+.requirements::after {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    background-image: url('Zen Garden.png');
+    align-self: start;
+    min-height: unset;
+}
+/* Row 3+: remaining paras full width */
+.requirements p:nth-of-type(2) { grid-column: 1 / -1; grid-row: 3; }
+.requirements p:nth-of-type(3) { grid-column: 1 / -1; grid-row: 4; }
+.requirements p:nth-of-type(4) { grid-column: 1 / -1; grid-row: 5; }
+.requirements a       { color: var(--primary); }
+.requirements a:hover { color: var(--accent); }
 
-/* Dark sidebar navigation column container */
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+
 .sidebar {
     background-color: #0f2d1f;
-    padding: 50px 30px;
-    color: #f7f5f0;
+    padding: 2.5rem 1.5rem;
+    color: var(--surface);
 }
 
-/* Sticky behavior activation keeping side lists fixed during scroll */
 .sidebar .wrapper {
     position: sticky;
-    top: 40px;
+    top: 2rem;
 }
 
-/* Section titles inside side column */
 .sidebar h3 {
-    font-family: 'Playfair Display', serif;
-    color: #c9a66b;
-    font-size: 1.3rem;
+    font-family: var(--font-heading);
+    color: var(--accent);
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 25px;
-    border-bottom: 1px solid rgba(201, 166, 107, 0.2);
-    padding-bottom: 10px;
+    letter-spacing: 0.08rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.0625rem solid rgba(201, 166, 107, 0.25);
 }
 
-/* Standard margin reset for navigation lists */
-.sidebar ul {
-    list-style: none;
-    margin-bottom: 40px;
-}
+.sidebar ul { list-style: none; margin-bottom: 2rem; }
 
-/* Soft border separate lines for structural links */
 .sidebar li {
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.0625rem solid rgba(255,255,255,0.05);
     transition: transform 0.3s ease;
 }
-
-/* Smooth lateral push shift movement on link container hover */
 .sidebar li:hover {
-    transform: translateX(8px);
+    transform: translateX(0.4rem);
 }
 
-/* Navigation theme titles styling rules */
-.sidebar a.design-name {
-    display: block;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 1.05rem;
-    transition: color 0.3s ease;
-}
+/* All sidebar links — white by default, gold on hover, slide via parent li */
+.sidebar a { color: var(--white); }
+.sidebar a::after { display: none; }
+.sidebar a:hover  { color: var(--accent); transform: none; padding-right: 0; }
 
-/* Active gold transition swap for highlighted titles */
-.sidebar li:hover a.design-name {
-    color: #c9a66b;
-}
+/* Design selection */
+.sidebar a.design-name { display: block; font-weight: 500; font-size: 1rem; }
+.sidebar a.designer-name { color: rgba(247, 245, 240, 0.5); font-size: 0.82rem; }
 
-/* Author handle links muted opacity setup */
-.sidebar a.designer-name {
-    color: rgba(247, 245, 240, 0.4);
-    font-size: 0.85rem;
-}
+/* Archives and Resources links — same slide + gold as design links */
+.design-archives a,
+.zen-resources a { display: block; font-size: 0.95rem; padding: 0.1rem 0; }
 
-/* Base border line creation above footer elements */
+/* ==========================================================================
+   FOOTER LINKS
+   ========================================================================== */
+
 .main footer {
-    grid-column: 1 / -1;
     display: flex;
-    justify-content: flex-start;
-    gap: 15px;
-    padding-top: 30px;
-    margin-top: 20px;
-    border-top: 1px solid #eef0eb;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    margin-top: 1rem;
+    border-top: 0.0625rem solid var(--border);
+    flex-wrap: wrap;
 }
 
-/* Turning footer text elements into custom modern buttons */
+/* Pills: turn off arrow + text-shift entirely, use lift + bg swap only */
 .main footer a {
-    display: inline-block;
-    padding: 6px 16px;
-    background: #eef0eb;
-    color: #123c29 !important;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3rem 0.9rem;
+    border-radius: 1rem;
+    background: var(--border);
+    color: var(--primary);
+    font-size: 0.82rem;
     font-weight: 500;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    white-space: nowrap;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
-
-/* Color invert and small vertical jump on footer button hover */
+.main footer a::after { display: none; }
 .main footer a:hover {
-    background: #123c29;
-    color: #ffffff !important;
-    transform: translateY(-3px);
+    background: var(--primary);
+    color: var(--white);
+    padding-right: 0.9rem;
+    transform: translateY(-0.15rem);
 }
 
-/* Tablet and mobile screens break point configurations */
-@media (max-width: 1024px) {
-    /* Collapse layout into one fluid single column view */
+/* ==========================================================================
+   RESPONSIVE — single column below 1024px
+   ========================================================================== */
+
+@media (max-width: 64rem) {
     .page-wrapper {
         grid-template-columns: 1fr;
-        margin: 10px;
+        margin: 0.5rem;
+        border-radius: 0.5rem;
     }
-    /* Restructure green top section into a singular block slot */
     .intro {
         grid-template-columns: 1fr;
     }
-    /* Hide decorative landscape thumbnail to optimize mobile spaces */
     .intro::after {
         display: none;
     }
-    /* Unset horizontal split for structural section blocks */
-    .benefits {
+    .intro .preamble {
+        margin: 0 1.5rem 2rem;
+    }
+    .main.supporting {
+        padding: 1.25rem;
+    }
+    .explanation, .participation, .benefits, .requirements {
         grid-template-columns: 1fr;
     }
-    /* Expand image area to matching horizontal width margins */
-    .benefits::after {
-        height: 200px;
+    .explanation::before, .participation::after,
+    .benefits::before, .requirements::after {
+        grid-column: 1 / 2;
+        grid-row: auto;
         width: 100%;
+        min-height: 10rem;
+        max-height: 12rem;
     }
-    /* Deactivate decorative abstract corner patterns on small device viewports */
-    .intro::before, .intro header::before {
-        display: none;
+    .explanation h3, .explanation p,
+    .participation h3, .participation p,
+    .benefits h3, .benefits p,
+    .requirements h3, .requirements p {
+        grid-column: 1 / 2;
+        grid-row: auto;
     }
 }
